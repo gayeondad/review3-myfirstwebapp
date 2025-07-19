@@ -1,0 +1,89 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'kr.co.bidworks'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// 유효성 검사 (Validation) 의존성 추가
+    // spring-boot-starter-validation은 Bean Validation API와 Hibernate Validator를 포함합니다.
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
+	// Spring Boot 3.x에서 JSP를 위한 Jakarta EE 호환 의존성
+    // implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    // implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+    // runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl' // JSTL 구현체
+    
+    // Thymeleaf 스타터 (필수)
+    // 이 의존성 하나만 추가하면 Thymeleaf 및 Spring과 Thymeleaf의 통합을 위한
+    // 모든 필요한 라이브러리들이 자동으로 함께 포함됩니다.
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    // Webjars Locator 의존성 (Webjars 리소스 경로를 자동으로 찾아줌)
+    implementation 'org.webjars:webjars-locator-core'
+
+    // Bootstrap Webjars 의존성 추가
+    // Bootstrap 5는 jQuery에 의존하지 않고 바닐라 JavaScript를 사용합니다.
+    implementation 'org.webjars:bootstrap:5.3.3' // ⭐ 최신 버전 확인 후 사용 (예: 5.3.3)
+    // https://mvnrepository.com/artifact/org.webjars.npm/bootstrap-icons
+	implementation 'org.webjars.npm:bootstrap-icons:1.13.1'
+    
+    // datetpicker : Tempus Dominus Webjars
+    // Tempus Dominus는 Moment.js나 Luxon.js 같은 날짜/시간 라이브러리에 의존할 수 있습니다.
+    // 여기서는 Luxon을 사용하는 예시입니다.
+    // implementation 'org.webjars:tempus-dominus:6.9.4' // 최신 버전 확인
+    // https://mvnrepository.com/artifact/org.webjars.npm/eonasdan__tempus-dominus
+	// implementation 'org.webjars.npm:eonasdan__tempus-dominus:6.10.4'
+    // implementation 'org.webjars:luxon:3.4.4' // Tempus Dominus가 Luxon에 의존할 경우 (버전 확인 필요)
+    // https://mvnrepository.com/artifact/org.webjars.npm/luxon
+	// implementation 'org.webjars.npm:luxon:3.6.1'
+	// implementation 'org.webjars.npm:luxon:3.5.0'
+	// implementation 'org.webjars.npm:luxon:3.4.4'
+	// https://mvnrepository.com/artifact/org.webjars/momentjs
+	// implementation 'org.webjars:momentjs:2.30.1'
+
+    // jQuery (Bootstrap 5에서는 필요 없지만, Bootstrap 4 이하 또는 다른 JS 라이브러리에서 필요할 수 있음)
+    // 만약 다른 라이브러리가 jQuery를 필요로 한다면 추가하세요.
+    // https://mvnrepository.com/artifact/org.webjars/jquery
+	implementation 'org.webjars:jquery:3.7.1'
+    
+    // Bootstrap-datepicker Webjars
+    // https://mvnrepository.com/artifact/org.webjars/bootstrap-datepicker
+	implementation 'org.webjars:bootstrap-datepicker:1.10.0'
+    
+    // Spring Data JPA 스타터 (ORM, 데이터베이스 연동 핵심)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MySQL 데이터베이스 드라이버 (MySQL Connector/J)
+    // Spring Boot 2.x에서는 'mysql:mysql-connector-java'를 사용했지만,
+    // Spring Boot 3.x (Jakarta EE 9+)부터는 'mysql:mysql-connector-j'를 사용해야 합니다.
+    // runtimeOnly 'mysql:mysql-connector-j' // 런타임에만 필요한 의존성이므로 runtimeOnly로 설정
+    // runtimeOnly 'mysql:mysql-connector-j:8.4.0' // 혹은 'mysql:mysql-connector-j:8.4.0' 와 같이 특정 버전
+    implementation 'com.mysql:mysql-connector-j:8.4.0'	// gradle 설정에서 runtimeOnly로 하면 Could not resolve: mysql:mysql-connector-j 발생
+    
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}

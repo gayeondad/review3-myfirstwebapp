@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: headFragment}">
+  </head>
+  <body>
+  	<div id="pragmentHeader" th:replace="~{fragments/header :: headerFragment}"></div>
+    <div class="container">
+    	<h1><span th:text=${_SESSION}>세션아이디</span> : List Todos page</h1>
+	    <div class="p-3">
+	    	<table class="table">
+	    		<thead>
+	    			<tr>
+	    				<th>No.</th>
+	    				<th>Username</th>
+	    				<th>Description</th>
+	    				<th>Target Date</th>
+	    				<th>Is Done?</th>
+	    				<th>Delete</th>
+	    				<th>Update</th>
+	    			</tr>
+	    		</thead>
+	    		
+	    		<div th:if="${#lists.isEmpty(todos)}" class="no-articles">
+			        <p>등록된 게시글이 없습니다.</p>
+			    </div>
+	    		
+	    		<tbody th:unless="${#lists.isEmpty(todos)}">
+	    			<tr th:each="todo, stat : ${todos}">
+	    				<td><span th:text="${stat.count}">1</span></td>
+	    				<td><span th:text="${todo.username}"></span></td>
+	    				<td><span th:text="${todo.description}"></span></td>
+	    				<td><span th:text="${todo.targetDate}"></span></td>
+	    				<td><span th:text="${todo.done}"></span></td>
+	    				<td><a th:href="@{delete-todo?id={id}(id=${todo.id})}" class="btn btn-warning">Delete</a></td>
+	    				<td><a th:href="@{update-todo?id={id}(id=${todo.id})}" class="btn btn-success">Update</a></td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+	    	<div>
+	    		<a href="add-todo" class="btn btn-success">Add Todo</a>
+	    	</div>
+	    </div>
+    </div>
+    <div id="pragmentFooter" th:replace="~{fragments/footer :: footerFragment}"></div>
+    <script th:replace="~{fragments/footer :: scriptFragment}"></script>
+  </body>
+</html>

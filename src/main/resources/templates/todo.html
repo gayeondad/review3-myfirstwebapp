@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: headFragment}">
+  </head>
+  <body>
+	<div id="pragmentHeader" th:replace="~{fragments/header :: headerFragment}"></div>
+  	<div class="container">
+  		<h1 class="d-flex justify-content-center">Todo&nbsp;<span th:text=${sessname}>세션아이디</span></h1>
+	    <div class="container border rounded p-0">
+	    	<div class="border-bottom m-0 bg-secondary-subtle">
+	    		<div class="p-3">
+	    			<span>add todo</span>
+	    		</div>
+	    	</div>
+	    	<div class="m-0">
+	    		<form class="p-3" method="post" th:action="@{/add-todo}" th:object="${todo}">
+	    			<input type="hidden" th:field="*{id}" />
+	    			<!-- <input type="hidden" th:field="*{username}" /> -->
+				  <div class="mb-3 row">
+				    <label for="description" class="col-sm-2 col-form-label">Description</label>
+				    <div class="col-sm-10">
+				    	<textarea id="description" th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''" class="form-control" cols="300"></textarea>
+				    	<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-message"></div>
+				    </div>
+				  </div>
+				  <div class="mb-3 row">
+				  	<span class="col-sm-2 col-form-label">Target Date</span>
+				  	<div class="col-sm-10">
+				  		<div class="input-group">
+					  		<input type="text" class="form-control" id="targetDate" th:field="*{targetDate}" th:classappend="${#fields.hasErrors('targetDate')} ? 'is-invalid' : ''" placeholder="시작날짜">
+					    	<label class="input-group-text" for="targetDate" ><i class="bi bi-calendar-check"></i></label>
+					    </div>
+					    <div th:if="${#fields.hasErrors('targetDate')}" th:errors="*{targetDate}" class="text-warning"></div>
+				    </div>
+				  </div>
+
+				  <div class="row">
+				  	<div class="d-flex justify-content-center">
+				  		<button type="submit" class="btn btn-primary">Submit</button>
+				  	</div>
+				  </div>
+				</form>
+	    	</div>
+	    </div>
+  	</div>
+    
+    <div id="pragmentFooter" th:replace="~{fragments/footer :: footerFragment}"></div>
+    <script th:replace="~{fragments/footer :: scriptFragment}"></script>
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js}"></script>
+    
+    <script type="text/javascript">
+        // jQuery의 ready 이벤트 핸들러
+        $(document).ready(function() {
+            // 데이트피커 초기화
+            $('#targetDate').datepicker({
+                format: 'yyyy-mm-dd', 	// 날짜 형식 지정
+                language: 'ko',      	// 한국어 로케일 사용 (필요시)
+                autoclose: true,     	// 날짜 선택 시 자동으로 데이트피커 닫기
+                todayHighlight: true,	// 오늘 날짜 강조 표시
+                daysOfWeekDisabled: [0,6],	//선택 불가능한 요일 설정 0 : 일요일 ~ 6 : 토요일
+    		    // daysOfWeekHighlighted: [0,6], //강조 되어야 하는 요일 설정
+                // 다른 옵션들: startDate, endDate, orientation 등 (공식 문서 참조)
+            }).datepicker("setStartDate", new Date());
+
+            // 날짜 선택 시 이벤트 처리
+            $('#targetDate').on('changeDate', function(event) {
+				console.log(event.date);
+            });
+
+            // (선택 사항) 초기값 설정 예시
+            // $('#datepickerInput').datepicker('setDate', new Date()); // 오늘 날짜로 설정
+            // $('#datepickerInput').datepicker('setDate', '2025-01-15'); // 특정 날짜로 설정
+        });
+    </script>
+  </body>
+</html>
