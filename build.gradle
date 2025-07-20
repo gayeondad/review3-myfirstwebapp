@@ -22,6 +22,9 @@ dependencies {
 	// 유효성 검사 (Validation) 의존성 추가
     // spring-boot-starter-validation은 Bean Validation API와 Hibernate Validator를 포함합니다.
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.5.3'
 	
 	// Spring Boot 3.x에서 JSP를 위한 Jakarta EE 호환 의존성
     // implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'

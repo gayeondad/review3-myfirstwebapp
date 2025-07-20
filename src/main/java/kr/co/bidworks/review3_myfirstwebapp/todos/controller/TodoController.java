@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,14 +30,6 @@ public class TodoController {
 		this.todoService = todoService;
 	}
 
-	@GetMapping("/")
-	public String showRootPage(ModelMap model) {
-		if (model.getAttribute("_SESSION") == null) {
-			return "redirect:login?username=veronika";
-		}
-		return "welcome";
-	}
-
 	@RequestMapping("list-todos")
 	public String showListTodosPage(ModelMap model) {
 		if (model.getAttribute("_SESSION") == null) {
@@ -47,7 +38,7 @@ public class TodoController {
 		String username = model.getAttribute("_SESSION").toString();
 //		logger.debug("session name is {}", username);
 		List<Todo> todos = todoService.readAllTodosByUsername(username);
-//		logger.debug("todos is {}", todos);
+		logger.debug("todos is {}", todos);
 		model.addAttribute("todos", todos);
 		return "listTodos";
 	}
